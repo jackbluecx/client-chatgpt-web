@@ -1,185 +1,173 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ChatGPT WebApp — Install & Configuration</title>
-  <style>
-    :root{--bg:#0f1724;--card:#111827;--muted:#9ca3af;--accent:#7c3aed;--glass:rgba(255,255,255,0.04);--mono:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:#e6eef8;background:linear-gradient(180deg,#071021 0%, #071827 60%);}
-    .wrap{max-width:1000px;margin:40px auto;padding:28px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));box-shadow:0 6px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
-    header{display:flex;gap:16px;align-items:center;margin-bottom:18px}
-    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-family:var(--mono)}
-    h1{font-size:20px;margin:0}
-    p.lead{margin:0;color:var(--muted);font-size:13px}
 
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
-    .card{background:var(--card);padding:16px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
-    h2{font-size:15px;margin:0 0 8px 0}
-    .muted{color:var(--muted);font-size:13px;margin-bottom:8px}
+Você disse:
+# ChatGPT WebApp — Install & Configuration
 
-    pre{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));padding:12px;border-radius:8px;overflow:auto;border:1px solid rgba(255,255,255,0.03);font-family:var(--mono);font-size:13px;margin:0}
-    code{white-space:pre-wrap}
+*(English first • Português abaixo)*
 
-    .paths{font-family:var(--mono);font-size:13px;background:var(--glass);padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);color:#dbeafe}
+---
 
-    .actions{display:flex;gap:8px;margin-top:12px}
-    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:8px;font-size:13px;cursor:pointer}
-    .btn.primary{background:linear-gradient(90deg,var(--accent),#06b6d4);color:white;border:none}
+# EN — Quick, clean instructions
 
-    .note{font-size:13px;color:var(--muted);margin-top:10px}
+## 1) Install
 
-    footer{margin-top:18px;color:var(--muted);font-size:12px;text-align:right}
+Run the installer (it already installs dependencies and copies files):
 
-    @media(max-width:880px){.grid{grid-template-columns:1fr}.logo{width:48px;height:48px}}
+bash
+chmod +x install.sh
+./install.sh
 
-    /* copy button inside code blocks */
-    .code-wrap{position:relative}
-    .copy{position:absolute;right:10px;top:10px;font-size:12px;padding:6px 8px;border-radius:6px;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.04);color:#e6eef8;cursor:pointer}
-  </style>
-</head>
-<body>
-  <main class="wrap" role="main">
-    <header>
-      <div class="logo">CG</div>
-      <div>
-        <h1>ChatGPT WebApp — Install & Configuration</h1>
-        <p class="lead">Install & edit instructions. English + Português — short, copyable and pretty.</p>
-      </div>
-    </header>
 
-    <section class="grid">
-      <article class="card">
-        <h2>EN — Quick, clean instructions</h2>
-        <p class="muted">Installer copies files and handles dependencies. Run the installer then edit the rules and shortcut.</p>
+Installed paths used below:
 
-        <div style="margin-top:8px">
-          <strong>1) Install</strong>
-          <div class="code-wrap" style="margin-top:8px">
-            <button class="copy" data-target="#install-en">Copy</button>
-            <pre id="install-en"><code>chmod +x install.sh
-./install.sh</code></pre>
-          </div>
+~/.local/share/applications/WebApp-ChatGPT4319.desktop
+~/.config/devilspie2/chatgpt.sh
+~/.config/devilspie2/chatgpt.lua
 
-          <p class="muted" style="margin-top:10px">Installed paths used below:</p>
-          <div class="paths">~/.local/share/applications/WebApp-ChatGPT4319.desktop<br>~/.config/devilspie2/chatgpt.sh<br>~/.config/devilspie2/chatgpt.lua</div>
-        </div>
 
-        <div style="margin-top:14px">
-          <strong>2) Edit <code>chatgpt.lua</code></strong>
-          <p class="muted">File: <code>~/.config/devilspie2/chatgpt.lua</code></p>
-          <div class="code-wrap" style="margin-top:8px">
-            <button class="copy" data-target="#lua-ex">Copy</button>
-            <pre id="lua-ex"><code>if get_window_class() == "WebApp-ChatGPT4319" then
+---
+
+## 2) Edit chatgpt.lua
+
+File:
+
+~/.config/devilspie2/chatgpt.lua
+
+
+Current example:
+
+lua
+if get_window_class() == "WebApp-ChatGPT4319" then
     set_window_geometry(1320, 680, 600, 400) -- X, Y, width, height
     make_always_on_top()
-end</code></pre>
-          </div>
+end
 
-          <p class="muted" style="margin-top:8px">What to change (short):</p>
-          <ul style="margin:6px 0 0 18px;color:var(--muted);font-size:13px">
-            <li><code>get_window_class()</code> — keep <code>"WebApp-ChatGPT4319"</code> unless you changed the .desktop class.</li>
-            <li><code>set_window_geometry(X, Y, W, H)</code> — X horizontal, Y vertical, W width, H height.</li>
-            <li><code>make_always_on_top()</code> — comment to disable: <code>-- make_always_on_top()</code>.</li>
-          </ul>
 
-          <div class="code-wrap" style="margin-top:8px">
-            <button class="copy" data-target="#reload-en">Copy</button>
-            <pre id="reload-en"><code>pkill devilspie2
-devilspie2 &</code></pre>
-          </div>
-        </div>
+What to change (short):
 
-        <div style="margin-top:12px">
-          <strong>3) Configure keyboard shortcut (manual)</strong>
-          <p class="muted">Command to assign:</p>
-          <div class="code-wrap" style="margin-top:8px">
-            <button class="copy" data-target="#shortcut-en">Copy</button>
-            <pre id="shortcut-en"><code>bash ~/.config/devilspie2/chatgpt.sh</code></pre>
-          </div>
+* get_window_class() — window identifier to match (keep "WebApp-ChatGPT4319" unless you changed the .desktop class).
+* set_window_geometry(X, Y, W, H) — X = horizontal position, Y = vertical position, W = width, H = height.
 
-          <p class="muted" style="margin-top:8px">Cinnamon (GUI): Settings → Keyboard → Shortcuts → Custom Shortcuts → Add new → Name: <code>ChatGPT</code>, Command: above, set key.</p>
-        </div>
+  * Examples:
 
-      </article>
+    
+lua
+    set_window_geometry(0, 0, 500, 300)      -- top-left, small
+    set_window_geometry(400, 200, 900, 600)  -- centered, large
 
-      <article class="card">
-        <h2>BR — Instalação e configuração</h2>
-        <p class="muted">Curto, direto — o instalador já copia e instala dependências.</p>
+* make_always_on_top() — keeps the window above others. Disable by commenting:
 
-        <div style="margin-top:8px">
-          <strong>1) Instalar</strong>
-          <div class="code-wrap" style="margin-top:8px">
-            <button class="copy" data-target="#install-br">Copy</button>
-            <pre id="install-br"><code>chmod +x install.sh
-./install.sh</code></pre>
-          </div>
+  
+lua
+  -- make_always_on_top()
 
-          <p class="muted" style="margin-top:10px">Caminhos usados:</p>
-          <div class="paths">~/.local/share/applications/WebApp-ChatGPT4319.desktop<br>~/.config/devilspie2/chatgpt.sh<br>~/.config/devilspie2/chatgpt.lua</div>
-        </div>
 
-        <div style="margin-top:14px">
-          <strong>2) Editar <code>chatgpt.lua</code></strong>
-          <p class="muted">Arquivo: <code>~/.config/devilspie2/chatgpt.lua</code></p>
-          <div class="code-wrap" style="margin-top:8px">
-            <button class="copy" data-target="#lua-br">Copy</button>
-            <pre id="lua-br"><code>if get_window_class() == "WebApp-ChatGPT4319" then
+Apply edits (reload rules):
+
+bash
+pkill devilspie2
+devilspie2 &
+
+
+---
+
+## 3) Configure keyboard shortcut (manual)
+
+Create a custom shortcut that runs the toggle script:
+
+**Command to assign**
+
+bash
+bash ~/.config/devilspie2/chatgpt.sh
+
+
+**Cinnamon (GUI)**
+Settings → Keyboard → Shortcuts → Custom Shortcuts → Add new →
+Name: ChatGPT
+Command: bash ~/.config/devilspie2/chatgpt.sh
+Assign preferred key.
+
+That's all.
+
+---
+
+# BR — Instalação e configuração (curto e direto)
+
+## 1) Instalar
+
+Execute o instalador (já instala dependências e copia arquivos):
+
+bash
+chmod +x install.sh
+./install.sh
+
+
+Caminhos usados:
+
+~/.local/share/applications/WebApp-ChatGPT4319.desktop
+~/.config/devilspie2/chatgpt.sh
+~/.config/devilspie2/chatgpt.lua
+
+
+---
+
+## 2) Editar chatgpt.lua
+
+Arquivo:
+
+~/.config/devilspie2/chatgpt.lua
+
+
+Exemplo atual:
+
+lua
+if get_window_class() == "WebApp-ChatGPT4319" then
     set_window_geometry(1320, 680, 600, 400) -- X, Y, largura, altura
     make_always_on_top()
-end</code></pre>
-          </div>
+end
 
-          <p class="muted" style="margin-top:8px">O que alterar (resumido):</p>
-          <ul style="margin:6px 0 0 18px;color:var(--muted);font-size:13px">
-            <li><code>get_window_class()</code> — deixe <code>"WebApp-ChatGPT4319"</code> salvo que altere o .desktop.</li>
-            <li><code>set_window_geometry(X, Y, L, A)</code> — X horizontal, Y vertical, L largura, A altura.</li>
-            <li>Comente <code>make_always_on_top()</code> para desativar.</li>
-          </ul>
 
-          <div class="code-wrap" style="margin-top:8px">
-            <button class="copy" data-target="#reload-br">Copy</button>
-            <pre id="reload-br"><code>pkill devilspie2
-devilspie2 &</code></pre>
-          </div>
-        </div>
+O que alterar (resumido):
 
-        <div style="margin-top:12px">
-          <strong>3) Atalho de teclado</strong>
-          <div class="code-wrap" style="margin-top:8px">
-            <button class="copy" data-target="#shortcut-br">Copy</button>
-            <pre id="shortcut-br"><code>bash ~/.config/devilspie2/chatgpt.sh</code></pre>
-          </div>
+* get_window_class() — identifica a janela (deixe "WebApp-ChatGPT4319" salvo que tenha alterado o .desktop).
+* set_window_geometry(X, Y, L, A) — X = posição horizontal, Y = vertical, L = largura, A = altura.
 
-          <p class="muted" style="margin-top:8px">Cinnamon: Configurações → Teclado → Atalhos → Atalhos personalizados → Adicionar → Nome: <code>ChatGPT</code>, Comando: acima, defina a tecla.</p>
-        </div>
-      </article>
-    </section>
+  * Exemplos:
 
-    <div class="card" style="margin-top:18px">
-      <h2>Notes & tips</h2>
-      <p class="note">Keep the <code>.desktop</code> Class consistent with <code>get_window_class()</code>. If you changed the Desktop file, update the class string in the <code>chatgpt.lua</code> rule.</p>
-      <p class="note">Reload rules after editing: <code>pkill devilspie2 && devilspie2 &</code></p>
-    </div>
+    
+lua
+    set_window_geometry(0, 0, 500, 300)      -- canto superior esquerdo, pequeno
+    set_window_geometry(400, 200, 900, 600)  -- centralizado, maior
 
-    <footer>Copy buttons work per block. Open this file in a browser to use the copy feature.</footer>
-  </main>
+* make_always_on_top() — mantém a janela acima das outras. Para desativar, comente:
 
-  <script>
-    document.querySelectorAll('.copy').forEach(btn => {
-      btn.addEventListener('click', ()=>{
-        const target = document.querySelector(btn.dataset.target);
-        if(!target) return;
-        navigator.clipboard.writeText(target.innerText).then(()=>{
-          btn.textContent = 'Copied';
-          setTimeout(()=> btn.textContent = 'Copy',900);
-        }).catch(()=>{
-          btn.textContent = 'Error';
-          setTimeout(()=> btn.textContent = 'Copy',900);
-        })   
-      })
-    })
-  </script>
-</body>
-</html>
+  
+lua
+  -- make_always_on_top()
+
+
+Aplicar alterações:
+
+bash
+pkill devilspie2
+devilspie2 &
+
+
+---
+
+## 3) Configurar atalho de teclado (manual)
+
+Aponte o atalho para o script de toggle:
+
+**Comando a usar**
+
+bash
+bash ~/.config/devilspie2/chatgpt.sh
+
+
+**Cinnamon (GUI)**
+Configurações → Teclado → Atalhos → Atalhos personalizados → Adicionar →
+Nome: ChatGPT
+Comando: bash ~/.config/devilspie2/chatgpt.sh
+Defina a tecla desejada.
+
+---
