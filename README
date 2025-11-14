@@ -1,245 +1,171 @@
-**AVISO:** abaixo estão **duas versões** deste README — **Inglês primeiro**, depois **Português**.
+# ChatGPT WebApp — Install & Configuration
+
+*(English first • Português abaixo)*
 
 ---
 
-# 📘 ChatGPT WebApp – Automatic Setup
+# EN — Quick, clean instructions
 
-*(English Version)*
+## 1) Install
 
-Integrates ChatGPT as a dedicated WebApp inside Linux Mint, providing:
-
-* Application menu entry
-* Dedicated window with fixed class (`WebApp-ChatGPT4319`)
-* Devilspie2 rules for automatic focus/minimize
-* Toggle script to open/minimize the ChatGPT window
-* Global **ALT+SPACE** shortcut (always overwritten)
-
----
-
-## ⭐ Features
-
-* Launch ChatGPT as a standalone Chrome WebApp
-* Consistent window class for automation
-* Automatic window management via Devilspie2
-* Global keyboard shortcut
-* Clean system integration
-
----
-
-## 📦 1. Dependencies
-
-Required packages:
-
-* `wmctrl` – window control
-* `xdotool` – window actions
-* `devilspie2` – automation rules
-* Google Chrome (App Mode)
-
-Install:
-
-```bash
-sudo apt install wmctrl xdotool devilspie2
-```
-
----
-
-## 📁 2. Installed Files
-
-### System
-
-`~/.local/share/applications/WebApp-ChatGPT4319.desktop`
-Menu launcher for opening ChatGPT as a WebApp.
-
-### User
-
-`~/.config/devilspie2/chatgpt.sh`
-Toggle script: open, focus, or minimize the ChatGPT window.
-
-`~/.config/devilspie2/chatgpt.lua`
-Devilspie2 rule that forces the window class to `WebApp-ChatGPT4319`.
-
-Devilspie2 starts automatically with Cinnamon.
-
----
-
-## ⚙️ 3. Installation
-
-Run:
+Run the installer (it already installs dependencies and copies files):
 
 ```bash
 chmod +x install.sh
 ./install.sh
 ```
 
-The installer will:
+Installed paths used below:
 
-1. Copy the `.desktop` entry to the applications menu
-2. Copy `chatgpt.sh` and `chatgpt.lua` to `~/.config/devilspie2/`
-3. Ensure Devilspie2 auto-starts
-4. Create and always overwrite the **ALT+SPACE** shortcut
-5. Validate/update the WebApp startup command
-
----
-
-## ⌨️ 4. Global Shortcut: ALT+SPACE
-
-This shortcut is installed automatically:
-
-* **Key:** Alt + Space
-* **Action:** Run `chatgpt.sh`
-* **Behavior:** Always overwritten
-* Works after reboot or theme changes
-
----
-
-## 🚀 5. How It Works
-
-Press **ALT+SPACE**:
-
-* If the ChatGPT window does **not** exist → opens
-* If it exists but is not focused → focuses
-* If it is already focused → minimizes
-
-This creates an instant pop-up effect.
-
----
-
-## ❌ 6. Uninstall
-
-Remove installed files:
-
-```bash
-rm ~/.config/devilspie2/chatgpt.sh
-rm ~/.config/devilspie2/chatgpt.lua
-rm ~/.local/share/applications/WebApp-ChatGPT4319.desktop
 ```
-
-Remove shortcut:
-
-```bash
-gsettings set org.cinnamon.desktop.keybindings.custom-keybindings "[]"
-```
-
-Log out and back in.
-
----
-
-# 🇧🇷 ChatGPT WebApp – Instalação Automática
-
-*(Versão em Português)*
-
-Integra o ChatGPT como WebApp no Linux Mint com:
-
-* Entrada no menu de aplicativos
-* Janela dedicada com classe fixa (`WebApp-ChatGPT4319`)
-* Devilspie2 para foco/minimização automática
-* Script para abrir/minimizar o ChatGPT
-* Atalho global **ALT+SPACE** (sempre sobrescrito)
-
----
-
-## ⭐ Recursos
-
-* Abre o ChatGPT como WebApp independente
-* Classe de janela consistente para automação
-* Gerenciamento automático pelo Devilspie2
-* Atalho global configurado
-* Integração limpa ao sistema
-
----
-
-## 📦 1. Dependências
-
-Pacotes necessários:
-
-* `wmctrl` – controle de janelas
-* `xdotool` – ações de janela
-* `devilspie2` – regras automáticas
-* Google Chrome (modo app)
-
-Instalação:
-
-```bash
-sudo apt install wmctrl xdotool devilspie2
+~/.local/share/applications/WebApp-ChatGPT4319.desktop
+~/.config/devilspie2/chatgpt.sh
+~/.config/devilspie2/chatgpt.lua
 ```
 
 ---
 
-## 📁 2. Arquivos instalados
+## 2) Edit `chatgpt.lua`
 
-### Sistema
+File:
 
-`~/.local/share/applications/WebApp-ChatGPT4319.desktop`
-Atalho do menu para abrir o ChatGPT em modo app.
+```
+~/.config/devilspie2/chatgpt.lua
+```
 
-### Usuário
+Current example:
 
-`~/.config/devilspie2/chatgpt.sh`
-Script que abre, foca ou minimiza a janela.
+```lua
+if get_window_class() == "WebApp-ChatGPT4319" then
+    set_window_geometry(1320, 680, 600, 400) -- X, Y, width, height
+    make_always_on_top()
+end
+```
 
-`~/.config/devilspie2/chatgpt.lua`
-Regra do Devilspie2 que fixa a classe `WebApp-ChatGPT4319`.
+What to change (short):
 
-O Devilspie2 inicia com o Cinnamon automaticamente.
+* `get_window_class()` — window identifier to match (keep `"WebApp-ChatGPT4319"` unless you changed the `.desktop` class).
+* `set_window_geometry(X, Y, W, H)` — X = horizontal position, Y = vertical position, W = width, H = height.
+
+  * Examples:
+
+    ```lua
+    set_window_geometry(0, 0, 500, 300)      -- top-left, small
+    set_window_geometry(400, 200, 900, 600)  -- centered, large
+    ```
+* `make_always_on_top()` — keeps the window above others. Disable by commenting:
+
+  ```lua
+  -- make_always_on_top()
+  ```
+
+Apply edits (reload rules):
+
+```bash
+pkill devilspie2
+devilspie2 &
+```
 
 ---
 
-## ⚙️ 3. Instalação
+## 3) Configure keyboard shortcut (manual)
 
-Execute:
+Create a custom shortcut that runs the toggle script:
+
+**Command to assign**
+
+```bash
+bash ~/.config/devilspie2/chatgpt.sh
+```
+
+**Cinnamon (GUI)**
+Settings → Keyboard → Shortcuts → Custom Shortcuts → Add new →
+Name: `ChatGPT`
+Command: `bash ~/.config/devilspie2/chatgpt.sh`
+Assign preferred key.
+
+That's all.
+
+---
+
+# BR — Instalação e configuração (curto e direto)
+
+## 1) Instalar
+
+Execute o instalador (já instala dependências e copia arquivos):
 
 ```bash
 chmod +x install.sh
 ./install.sh
 ```
 
-O instalador:
+Caminhos usados:
 
-1. Copia o `.desktop` para o menu
-2. Copia `chatgpt.sh` e `chatgpt.lua` para `~/.config/devilspie2/`
-3. Garante que o Devilspie2 está ativo no sistema
-4. Cria e sobrescreve sempre o atalho **ALT+SPACE**
-5. Valida/atualiza o comando que inicia o WebApp
-
----
-
-## ⌨️ 4. Atalho global ALT+SPACE
-
-Criado automaticamente:
-
-* **Tecla:** Alt + Space
-* **Ação:** executar `chatgpt.sh`
-* Sempre sobrescrito
-* Funciona após reiniciar
-
----
-
-## 🚀 5. Como usar
-
-Pressione **ALT+SPACE**:
-
-* Se a janela não existir → abre
-* Se existir em outro workspace → foca
-* Se estiver ativa → minimiza
-
-Efeito pop-up imediato.
-
----
-
-## ❌ 6. Desinstalação
-
-Remova:
-
-```bash
-rm ~/.config/devilspie2/chatgpt.sh
-rm ~/.config/devilspie2/chatgpt.lua
-rm ~/.local/share/applications/WebApp-ChatGPT4319.desktop
+```
+~/.local/share/applications/WebApp-ChatGPT4319.desktop
+~/.config/devilspie2/chatgpt.sh
+~/.config/devilspie2/chatgpt.lua
 ```
 
-Remova o atalho:
+---
 
-```bash
-gsettings set org.cinnamon.desktop.keybindings.custom-keybindings "[]"
+## 2) Editar `chatgpt.lua`
+
+Arquivo:
+
+```
+~/.config/devilspie2/chatgpt.lua
 ```
 
-Depois reinicie a sessão.
+Exemplo atual:
+
+```lua
+if get_window_class() == "WebApp-ChatGPT4319" then
+    set_window_geometry(1320, 680, 600, 400) -- X, Y, largura, altura
+    make_always_on_top()
+end
+```
+
+O que alterar (resumido):
+
+* `get_window_class()` — identifica a janela (deixe `"WebApp-ChatGPT4319"` salvo que tenha alterado o `.desktop`).
+* `set_window_geometry(X, Y, L, A)` — X = posição horizontal, Y = vertical, L = largura, A = altura.
+
+  * Exemplos:
+
+    ```lua
+    set_window_geometry(0, 0, 500, 300)      -- canto superior esquerdo, pequeno
+    set_window_geometry(400, 200, 900, 600)  -- centralizado, maior
+    ```
+* `make_always_on_top()` — mantém a janela acima das outras. Para desativar, comente:
+
+  ```lua
+  -- make_always_on_top()
+  ```
+
+Aplicar alterações:
+
+```bash
+pkill devilspie2
+devilspie2 &
+```
+
+---
+
+## 3) Configurar atalho de teclado (manual)
+
+Aponte o atalho para o script de toggle:
+
+**Comando a usar**
+
+```bash
+bash ~/.config/devilspie2/chatgpt.sh
+```
+
+**Cinnamon (GUI)**
+Configurações → Teclado → Atalhos → Atalhos personalizados → Adicionar →
+Nome: `ChatGPT`
+Comando: `bash ~/.config/devilspie2/chatgpt.sh`
+Defina a tecla desejada.
+
+---
