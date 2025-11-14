@@ -1,0 +1,20 @@
+[Desktop Entry]
+Version=1.0
+Name=ChatGPT
+Comment=chat gpt cliente
+Exec=google-chrome-stable --app="https://chatgpt.com/" --class=WebApp-ChatGPT4319 --name=WebApp-ChatGPT4319 --user-data-dir=/home/diego/.local/share/ice/profiles/ChatGPT4319
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=/home/diego/Documentos/icones/openai-chatgpt-logo-icon-free-png.webp
+Categories=GTK;WebApps;
+MimeType=text/html;text/xml;application/xhtml_xml;
+StartupWMClass=WebApp-ChatGPT4319
+StartupNotify=true
+X-WebApp-Browser=Chrome
+X-WebApp-URL=https://chatgpt.com/
+X-WebApp-CustomParameters=
+X-WebApp-Navbar=false
+X-WebApp-PrivateWindow=false
+X-WebApp-Isolated=true
+

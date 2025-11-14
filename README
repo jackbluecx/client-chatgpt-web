@@ -1,0 +1,108 @@
+# ChatGPT WebApp – Instalação Automática
+
+Integra o ChatGPT como WebApp no Linux Mint com:
+
+* Ícone no menu de aplicativos
+* Janela dedicada com classe fixa (`WebApp-ChatGPT4319`)
+* Devilspie2 para focar/minimizar automaticamente
+* Script de toggle da janela
+* Atalho global **ALT+SPACE** (sobrescrito sempre)
+
+---
+
+## 1. Dependências
+
+O processo usa:
+
+* **wmctrl** – controle de janelas
+* **xdotool** – ações de janela
+* **devilspie2** – regras automáticas para janelas
+* **Google Chrome** (modo app)
+
+Instale com:
+
+```bash
+sudo apt install wmctrl xdotool devilspie2
+```
+
+---
+
+## 2. Arquivos instalados
+
+### Sistema
+
+* `~/.local/share/applications/WebApp-ChatGPT4319.desktop`
+  Atalho do menu para abrir o ChatGPT em modo app.
+
+### Usuário
+
+* `~/.config/devilspie2/chatgpt.sh`
+  Script para abrir/focar/minimizar a janela do ChatGPT.
+
+* `~/.config/devilspie2/chatgpt.lua`
+  Regra que força a janela a usar a classe `WebApp-ChatGPT4319`.
+
+Devilspie2 é iniciado automaticamente pelo Cinnamon.
+
+---
+
+## 3. Instalação
+
+Execute:
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+O instalador:
+
+1. Copia o `.desktop` para o menu.
+2. Move `chatgpt.sh` e `chatgpt.lua` para `~/.config/devilspie2/`.
+3. Ativa Devilspie2.
+4. Configura e sobrescreve sempre o atalho **ALT+SPACE**.
+5. Força a criação/atualização do comando que abre a janela.
+
+---
+
+## 4. Atalho global ALT+SPACE
+
+O script instala o atalho:
+
+* Tecla: **Alt+Space**
+* Ação: executar `chatgpt.sh`
+* Sempre sobrescrito, mesmo que já exista
+* Funciona mesmo após reiniciar o sistema ou trocar temas
+
+---
+
+## 5. Como usar
+
+Pressione **ALT+SPACE**:
+
+* Se a janela do ChatGPT não existir → abre.
+* Se existir em outro workspace → foca.
+* Se estiver ativa → minimiza.
+
+Funciona como um “guia pop-up” instantâneo.
+
+---
+
+## 6. Desinstalação
+
+### Remover arquivos:
+
+```bash
+rm ~/.config/devilspie2/chatgpt.sh
+rm ~/.config/devilspie2/chatgpt.lua
+rm ~/.local/share/applications/WebApp-ChatGPT4319.desktop
+```
+
+### Remover atalho ALT+SPACE:
+
+```bash
+gsettings set org.cinnamon.desktop.keybindings.custom-keybindings "[]"
+```
+
+Depois reinicie a sessão.
+
